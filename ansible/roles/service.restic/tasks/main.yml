@@ -1,0 +1,47 @@
+---
+- name: Decrypt restic secrets
+  community.sops.load_vars:
+    file: restic-secrets.sops.yaml
+
+- name: Install restic package
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    name:
+      - restic
+    state: present
+
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ ansible_env.HOME }}/restic"
+    - "{{ ansible_env.HOME }}/.config/restic"
+
+- name: Copy restic excludes file
+  ansible.builtin.copy:
+    src: excludes.txt
+    dest: "{{ ansible_env.HOME }}/.config/restic/excludes.txt"
+
+- name: Copy restic environment variables file
+  ansible.builtin.template:
+    src: restic.env
+    dest: "{{ ansible_env.HOME }}/.config/restic/restic.env"
+
+- name: Copy systemd timer for periodic backups
+  ansible.builtin.copy:
+    src: restic-backup.timer
+    dest: "{{ ansible_env.HOME}}/.config/systemd/user/restic-backup.timer"
+
+- name: Copy systemd service for periodic backups
+  ansible.builtin.copy:
+    src: restic-backup.service
+    dest: "{{ ansible_env.HOME}}/.config/systemd/user/restic-backup.service"
+
+- name: Enable systemd timer for periodic backups
+  ansible.builtin.systemd_service:
+    name: restic-backup.timer
+    scope: user
+    enabled: true
+    state: started
