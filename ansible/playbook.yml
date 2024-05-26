@@ -4,3 +4,4 @@
     - setup.raspberrypi
     - hub.restic.common
     - service.restic
+    - hub.restic.replica

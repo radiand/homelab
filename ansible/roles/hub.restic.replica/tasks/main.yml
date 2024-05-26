@@ -1,0 +1,40 @@
+---
+- name: Create directories
+  become: true
+  ansible.builtin.file:
+    path: "{{ restic_replica_disk_mount_point }}"
+    state: directory
+    owner: 1000
+    group: 1000
+
+- name: Setup fstab to allow mounting replica disk by users
+  become: true
+  ansible.posix.mount:
+    boot: false
+    fstype: ext4
+    state: present
+    src: "LABEL={{ restic_replica_disk_label }}"
+    path: "{{ restic_replica_disk_mount_point }}"
+    opts: "rw,user"
+
+- name: Copy restic environment variables file
+  ansible.builtin.template:
+    src: restic-replica.env
+    dest: "{{ ansible_env.HOME }}/.config/restic/restic-replica.env"
+
+- name: Copy systemd timer for periodic replication
+  ansible.builtin.copy:
+    src: restic-disk-replica.timer
+    dest: "{{ ansible_env.HOME }}/.config/systemd/user/restic-disk-replica.timer"
+
+- name: Copy systemd service for periodic replication
+  ansible.builtin.copy:
+    src: restic-disk-replica.service
+    dest: "{{ ansible_env.HOME }}/.config/systemd/user/restic-disk-replica.service"
+
+- name: Enable systemd timer for periodic replication
+  ansible.builtin.systemd_service:
+    name: restic-disk-replica.timer
+    scope: user
+    enabled: true
+    state: started
