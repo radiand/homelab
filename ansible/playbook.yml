@@ -1,4 +1,5 @@
 ---
 - hosts: raspberrypi
   roles:
+    - hub.restic.common
     - service.restic
