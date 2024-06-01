@@ -1,0 +1,5 @@
+---
+- hosts: local
+  roles:
+    - package.unison
+    - peer.unison.sync
