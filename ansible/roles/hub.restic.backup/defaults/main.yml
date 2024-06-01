@@ -1,0 +1,5 @@
+---
+backup_clone_disk_label: "SEAGATE_EXT4"
+backup_path: "{{ ansible_env.HOME }}/vault"
+restic_repository_path: "{{ ansible_env.HOME }}/restic/vault-repo"
+restic_repository_disk_clone_path: "{{ ansible_env.HOME }}/mnt/external/vault-repo/"
