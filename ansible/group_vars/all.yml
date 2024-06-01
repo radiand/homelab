@@ -2,3 +2,7 @@ username: "radiand"
 package:
   unison:
     version: "2.53.5"
+sync:
+  paths:
+    - "vault"
+  restic_repository: "restic/vault-repo"
