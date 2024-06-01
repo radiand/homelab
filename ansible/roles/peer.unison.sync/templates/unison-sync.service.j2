@@ -1,0 +1,16 @@
+[Unit]
+Description=Synchronize files with unison
+StartLimitIntervalSec=60
+StartLimitBurst=1
+
+[Service]
+Type=oneshot
+ExecStart={{ package_unison_bin }} \
+    {{ unison_root_peer }} \
+    ssh://radiand@raspberrypi.local/{{ unison_root_hub }} \
+{% for item in sync.paths %}
+    -path {{ item }} \
+{% endfor %}
+    -auto \
+    -batch \
+    -copyonconflict

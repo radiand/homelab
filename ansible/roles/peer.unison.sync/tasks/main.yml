@@ -1,0 +1,23 @@
+---
+- name: Set facts
+  ansible.builtin.set_fact:
+    unison_root_hub: "/home/{{ username }}"
+    unison_root_peer: "{{ ansible_env.HOME }}"
+
+- name: Copy systemd service to perform unison sync
+  ansible.builtin.template:
+    src: unison-sync.service.j2
+    dest: "{{ ansible_env.HOME }}/.config/systemd/user/unison-sync.service"
+
+- name: Copy systemd timer trigger to launch unison sync periodically
+  ansible.builtin.template:
+    src: unison-sync.timer.j2
+    dest: "{{ ansible_env.HOME }}/.config/systemd/user/unison-sync.timer"
+
+- name: Enable systemd timer
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+    name: unison-sync.timer
+    scope: user
+    enabled: true
+    state: started

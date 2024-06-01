@@ -1,0 +1,8 @@
+[Unit]
+Description=Watch changes in unison-managed directories
+
+[Path]
+{% for item in sync.paths %}
+PathChanged={{ unison_root_peer }}/{{ item }}
+{% endfor %}
+Unit=unison-sync.service

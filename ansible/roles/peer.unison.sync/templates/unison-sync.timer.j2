@@ -1,0 +1,9 @@
+[Unit]
+Description=Synchronize files with unison
+
+[Timer]
+OnCalendar=*-*-* 8,15:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
