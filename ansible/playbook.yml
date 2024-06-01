@@ -5,3 +5,4 @@
     - hub.restic.common
     - service.restic
     - hub.restic.replica
+    - package.unison
