@@ -1,1 +1,4 @@
 username: "radiand"
+package:
+  unison:
+    version: "2.53.5"
