@@ -11,6 +11,7 @@ ExecStart={{ package_unison_bin }} \
 {% for item in sync.paths %}
     -path {{ item }} \
 {% endfor %}
+    -sshargs '-i {{ ansible_env.HOME }}/{{ ssh_key }}' \
     -auto \
     -batch \
     -copyonconflict

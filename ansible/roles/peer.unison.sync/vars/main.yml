@@ -1,0 +1,1 @@
+ssh_key: "{{ undef(hint='Required ssh key location within home dir (example: .ssh/id_rsa)') }}"
