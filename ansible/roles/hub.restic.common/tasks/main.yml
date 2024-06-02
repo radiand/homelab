@@ -1,12 +1,4 @@
 ---
-- name: Install restic package
-  become: true
-  ansible.builtin.apt:
-    update_cache: true
-    name:
-      - restic
-    state: present
-
 - name: Decrypt restic secrets
   community.sops.load_vars:
     file: restic-secrets.sops.yaml

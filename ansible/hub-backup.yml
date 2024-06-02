@@ -3,6 +3,7 @@
   roles:
     - setup.raspberrypi
     - hub.restic.common
+    - package.restic
     - hub.restic.backup
     - hub.restic.replica
     - package.unison
