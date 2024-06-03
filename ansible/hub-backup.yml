@@ -1,7 +1,6 @@
 ---
 - hosts: hub
   roles:
-    - setup.raspberrypi
     - hub.restic.common
     - package.restic
     - hub.restic.backup
