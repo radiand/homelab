@@ -1,5 +1,5 @@
 ---
-- hosts: raspberrypi
+- hosts: hub
   roles:
     - setup.raspberrypi
     - hub.restic.common
