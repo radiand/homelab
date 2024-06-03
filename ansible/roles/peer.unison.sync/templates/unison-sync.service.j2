@@ -14,4 +14,5 @@ ExecStart={{ package_unison_bin }} \
     -sshargs '-i {{ ansible_env.HOME }}/{{ ssh_key }}' \
     -auto \
     -batch \
+    -times \
     -copyonconflict
