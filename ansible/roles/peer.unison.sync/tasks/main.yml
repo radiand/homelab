@@ -1,4 +1,10 @@
 ---
+- name: Validate variables
+  ansible.builtin.assert:
+    that:
+      - "{{ ssh_key.startswith('/') }}"
+    fail_msg: "ssh_key must be an absolute path"
+
 - name: Set facts
   ansible.builtin.set_fact:
     unison_root_hub: "/home/{{ username }}"
