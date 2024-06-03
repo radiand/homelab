@@ -7,7 +7,7 @@ StartLimitBurst=1
 Type=oneshot
 ExecStart={{ package_unison_bin }} \
     {{ unison_root_peer }} \
-    ssh://radiand@raspberrypi.local/{{ unison_root_hub }} \
+    {{ hub_uri + '/' + unison_root_hub }} \
 {% for item in sync.paths %}
     -path {{ item }} \
 {% endfor %}

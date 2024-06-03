@@ -1,1 +1,2 @@
-ssh_key: "{{ undef(hint='Required ssh key location (example: /home/me/.ssh/id_rsa)') }}"
+hub_uri: "ssh://radiand@raspberrypi.local"
+ssh_key: ""

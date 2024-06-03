@@ -1,19 +1,29 @@
 ---
-- name: Validate variables
-  ansible.builtin.assert:
-    that:
-      - "{{ ssh_key.startswith('/') }}"
-    fail_msg: "ssh_key must be an absolute path"
-
 - name: Set facts
   ansible.builtin.set_fact:
     unison_root_hub: "/home/{{ username }}"
     unison_root_peer: "{{ ansible_env.HOME }}"
 
-- name: Copy systemd service to perform unison sync
-  ansible.builtin.template:
-    src: unison-sync.service.j2
-    dest: "{{ ansible_env.HOME }}/.config/systemd/user/unison-sync.service"
+- name: Verify if target protocol is supported
+  ansible.builtin.assert:
+    that:
+      - hub_uri is match("ssh://.*")
+    fail_msg: "Only ssh target is supported currently"
+
+- name: Setup unison when syncing with ssh target
+  block:
+    - name: Validate variables
+      ansible.builtin.assert:
+        that:
+          - ssh_key is match("/.*")
+          - ssh_key is exists
+        fail_msg: "ssh_key must be an absolute path to a file"
+    - name: Copy systemd service to perform unison sync
+      ansible.builtin.template:
+        src: unison-sync.service.ssh.j2
+        dest: "{{ ansible_env.HOME }}/.config/systemd/user/unison-sync.service"
+  when:
+    - hub_uri is match("ssh://.*")
 
 - name: Copy systemd timer trigger to launch unison sync periodically
   ansible.builtin.template:
