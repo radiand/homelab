@@ -1,5 +1,5 @@
 ---
-- name: Install unison for x86_64
+- name: Install todo-txt for x86_64
   ansible.builtin.unarchive:
     src: "https://github.com/todotxt/todo.txt-cli/releases/download/v{{ package.todo.version }}/todo.txt_cli-{{ package.todo.version }}.tar.gz"
     dest: "{{ ansible_env.HOME }}/.local/bin"
