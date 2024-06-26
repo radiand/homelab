@@ -1,10 +1,10 @@
 ---
 - name: Install todo-txt for x86_64
   ansible.builtin.unarchive:
-    src: "https://github.com/todotxt/todo.txt-cli/releases/download/v{{ package.todo.version }}/todo.txt_cli-{{ package.todo.version }}.tar.gz"
+    src: "https://github.com/todotxt/todo.txt-cli/releases/download/v{{ version.todo }}/todo.txt_cli-{{ version.todo }}.tar.gz"
     dest: "{{ ansible_env.HOME }}/.local/bin"
     remote_src: true
     extra_opts:
       - "--strip-components=1"
     include:
-      - "todo.txt_cli-{{ package.todo.version }}/todo.sh"
+      - "todo.txt_cli-{{ version.todo }}/todo.sh"

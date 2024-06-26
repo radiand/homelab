@@ -1,7 +1,7 @@
 ---
 - name: Install fzf for x86_64
   ansible.builtin.unarchive:
-    src: "https://github.com/junegunn/fzf/releases/download/{{ package.fzf.version }}/fzf-{{ package.fzf.version }}-linux_amd64.tar.gz"
+    src: "https://github.com/junegunn/fzf/releases/download/{{ version.fzf }}/fzf-{{ version.fzf }}-linux_amd64.tar.gz"
     dest: "{{ ansible_env.HOME }}/.local/bin"
     remote_src: true
     include:

@@ -1,6 +1,4 @@
 ---
-package:
-  fzf:
-    version: "0.53.0"
-  todo:
-    version: "2.12.0"
+version:
+  fzf: "0.53.0"
+  todo: "2.12.0"
