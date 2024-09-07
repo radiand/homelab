@@ -1,0 +1,17 @@
+---
+- name: Copy zettelkasten-push systemd service
+  ansible.builtin.template:
+    src: zettelkasten-git-sync.service
+    dest: "{{ ansible_env.HOME}}/.config/systemd/user/zettelkasten-git-sync.service"
+
+- name: Copy zettelkasten-git-sync systemd timer
+  ansible.builtin.copy:
+    src: zettelkasten-git-sync.timer
+    dest: "{{ ansible_env.HOME}}/.config/systemd/user/zettelkasten-git-sync.timer"
+
+- name: Enable systemd timer for periodic backups
+  ansible.builtin.systemd_service:
+    name: zettelkasten-git-sync.timer
+    scope: user
+    enabled: true
+    state: started

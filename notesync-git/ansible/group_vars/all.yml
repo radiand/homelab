@@ -1,0 +1,7 @@
+---
+hub_zettelkasten_git_dir: "/home/git/zettelkasten.git"
+hub_zettelkasten_git_remote: "git@raspberrypi.local:zettelkasten.git"
+peer_zettelkasten_git_dir: "{{ ansible_env.HOME }}/vault/zettelkasten"
+peer_ssh_public_key: "{{ ansible_env.HOME }}/.ssh/id_ed25519_rpi.pub"
+peer_zettelkasten_bin: "{{ ansible_env.HOME }}/go/bin/zettelkasten"
+peer_git_bin: "/usr/bin/git"

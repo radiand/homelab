@@ -1,0 +1,9 @@
+[Unit]
+Description=Zettelkasten git sync
+
+[Service]
+Type=oneshot
+WorkingDirectory={{ peer_zettelkasten_git_dir }}
+ExecStart={{ peer_zettelkasten_bin }} commit
+ExecStart={{ peer_git_bin }} pull origin master
+ExecStart={{ peer_git_bin }} push origin master

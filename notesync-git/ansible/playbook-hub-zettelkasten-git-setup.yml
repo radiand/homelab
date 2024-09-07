@@ -1,0 +1,7 @@
+---
+- hosts: hub
+  roles:
+    - package.restic
+    - package.git
+    - hub.git.setup
+    - hub.git.init.zettelkasten
