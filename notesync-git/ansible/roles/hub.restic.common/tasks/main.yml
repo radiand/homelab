@@ -1,0 +1,4 @@
+---
+- name: Decrypt restic secrets
+  community.sops.load_vars:
+    file: restic-secrets.sops.yaml

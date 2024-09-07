@@ -1,5 +1,9 @@
 ---
 hub_zettelkasten_git_dir: "/home/git/zettelkasten.git"
+hub_zettelkasten_restic_master_dir: "{{ ansible_env.HOME }}/restic/zettelkasten.git"
+hub_zettelkasten_restic_replica_dir: "/mnt/external/restic/zettelkasten.git"
+hub_replica_disk_label: "SEAGATE_EXT4"
+hub_replica_disk_mount_point: "/mnt/external"
 hub_zettelkasten_git_remote: "git@raspberrypi.local:zettelkasten.git"
 peer_zettelkasten_git_dir: "{{ ansible_env.HOME }}/vault/zettelkasten"
 peer_ssh_public_key: "{{ ansible_env.HOME }}/.ssh/id_ed25519_rpi.pub"
