@@ -1,0 +1,16 @@
+---
+- name: Install restic for Debian
+  block:
+    - name: Install restic for Debian
+      become: true
+      ansible.builtin.apt:
+        update_cache: true
+        name:
+          - restic
+        state: present
+    - name: Set restic binary package path
+      # TODO: consider calling `which restic` and registering variable
+      ansible.builtin.set_fact:
+        package_restic_bin: "/usr/bin/restic"
+  when:
+    - ansible_distribution == "Debian"

@@ -1,0 +1,31 @@
+---
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ ansible_env.HOME }}/restic/zettelkasten.git"
+    - "{{ ansible_env.HOME }}/.config/restic/zettelkasten.git"
+
+- name: Copy restic environment variables file
+  ansible.builtin.template:
+    src: backup.env
+    dest: "{{ ansible_env.HOME }}/.config/restic/zettelkasten.git/backup.env"
+    mode: "0600"
+
+- name: Copy systemd timer for periodic backups
+  ansible.builtin.copy:
+    src: zettelkasten-git-backup.timer
+    dest: "{{ ansible_env.HOME}}/.config/systemd/user/zettelkasten-git-backup.timer"
+
+- name: Copy systemd service for periodic backups
+  ansible.builtin.copy:
+    src: zettelkasten-git-backup.service
+    dest: "{{ ansible_env.HOME}}/.config/systemd/user/zettelkasten-git-backup.service"
+
+- name: Enable systemd timer for periodic backups
+  ansible.builtin.systemd_service:
+    name: zettelkasten-git-backup.timer
+    scope: user
+    enabled: true
+    state: started
