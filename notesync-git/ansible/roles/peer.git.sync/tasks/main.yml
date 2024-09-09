@@ -1,4 +1,12 @@
 ---
+- name: Extend .ssh/config with SSH identity
+  community.general.ssh_config:
+    host: "raspberrypi.local"
+    hostname: "raspberrypi.local"
+    user: "{{ ansible_env.USER }}"
+    identity_file: "{{ peer_ssh_private_key }}"
+    state: present
+
 - name: Copy zettelkasten-push systemd service
   ansible.builtin.template:
     src: zettelkasten-git-sync.service
