@@ -6,6 +6,8 @@ Description=Zettelkasten git sync timer
 OnCalendar=daily
 # run ASAP if last schedule did not run
 Persistent=true
+# Run 5min after boot
+OnBootSec=300
 
 [Install]
 WantedBy=timers.target
