@@ -17,6 +17,19 @@
     path: "{{ hub_replica_disk_mount_point }}"
     opts: "rw,user"
 
+- name: Check if restic repository exists
+  ansible.builtin.command: restic --repo "{{ hub_zettelkasten_restic_replica_dir }}" cat config
+  environment:
+    RESTIC_PASSWORD: "{{ restic_password }}"
+  ignore_errors: true
+  register: restic_check
+
+- name: Initialize restic repository
+  when: restic_check.rc == 1  # in restic >= 0.17.0 check for exit code 10
+  ansible.builtin.command: restic init --repo "{{ hub_zettelkasten_restic_replica_dir }}"
+  environment:
+    RESTIC_PASSWORD: "{{ restic_password }}"
+
 - name: Copy restic environment variables file
   ansible.builtin.template:
     src: replica.env

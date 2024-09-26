@@ -7,6 +7,19 @@
     - "{{ ansible_env.HOME }}/restic/zettelkasten.git"
     - "{{ ansible_env.HOME }}/.config/restic/zettelkasten.git"
 
+- name: Check if restic repository exists
+  ansible.builtin.command: restic --repo "{{ ansible_env.HOME }}/restic/zettelkasten.git" cat config
+  environment:
+    RESTIC_PASSWORD: "{{ restic_password }}"
+  ignore_errors: true
+  register: restic_check
+
+- name: Initialize restic repository
+  when: restic_check.rc == 10
+  ansible.builtin.command: restic init --repo "{{ ansible_env.HOME }}/restic/zettelkasten.git"
+  environment:
+    RESTIC_PASSWORD: "{{ restic_password }}"
+
 - name: Copy restic environment variables file
   ansible.builtin.template:
     src: backup.env
