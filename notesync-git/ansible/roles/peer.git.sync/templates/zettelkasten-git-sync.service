@@ -7,3 +7,4 @@ WorkingDirectory={{ peer_zettelkasten_git_dir }}
 ExecStart={{ peer_zettelkasten_bin }} commit -c 60m
 ExecStart={{ peer_git_bin }} pull --rebase origin master
 ExecStart={{ peer_git_bin }} push origin master
+ExecStart={{ peer_zettelkasten_bin }} link
