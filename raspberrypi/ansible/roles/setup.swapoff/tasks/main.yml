@@ -1,0 +1,4 @@
+---
+- name: Disable swap
+  become: true
+  ansible.builtin.shell: dphys-swapfile swapoff
