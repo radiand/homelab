@@ -3,3 +3,4 @@
   roles:
     - service.bookmarking.caddy
     - service.bookmarking.readeck
+    - service.bookmarking.readeck.backup

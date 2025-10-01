@@ -1,0 +1,11 @@
+[Unit]
+Description=restic backup of readeck data
+
+[Timer]
+# daily at 00:00:00, according systemd.time(7)
+OnCalendar=daily
+# run ASAP if last schedule did not run
+Persistent=true
+
+[Install]
+WantedBy=timers.target
