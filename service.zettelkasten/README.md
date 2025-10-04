@@ -1,4 +1,4 @@
-notesync-git
+service.zettelkasten
 
 # What?
 
