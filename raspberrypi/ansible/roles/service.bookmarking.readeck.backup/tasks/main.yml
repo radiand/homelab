@@ -1,23 +1,18 @@
 ---
 # We need full paths to executables to inject them into systemd services, which
 # do not have access to user's PATH.
-- name: Obtain readeck bin path
-  ansible.builtin.shell: whereis -b readeck
-  register: _readeck_bin_lookup
+- name: Discover full paths for tools that must be reachable from systemd
+  ansible.builtin.command: bash -lc 'command -v {{ item }}'
+  register: _bins
+  loop:
+    - readeck
+    - restic
+  changed_when: false
+  check_mode: no
 
-- name: Set readeck_bin fact
+- name: Expose the discovered paths as a dict
   set_fact:
-    # use default(..., true) to treat empty string as unset
-    readeck_bin: "{{ _readeck_bin_lookup.stdout.split(':', 1)[1].strip() | default('readeck', true) }}"
-
-- name: Obtain restic bin bath
-  ansible.builtin.shell: whereis -b restic
-  register: _restic_bin_lookup
-
-- name: Set restic_bin fact
-  set_fact:
-    # use default(..., true) to treat empty string as unset
-    restic_bin: "{{ _restic_bin_lookup.stdout.split(':', 1)[1].strip()| default('restic', true) }}"
+    bins: "{{ dict(_bins.results | map(attribute='item') | zip(_bins.results | map(attribute='stdout'))) }}"
 
 - name: Create directories
   ansible.builtin.file:

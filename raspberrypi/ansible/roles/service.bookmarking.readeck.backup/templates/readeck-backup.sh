@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-set +x
+set -eo pipefail
 
-{{ readeck_bin }} -config "${HOME}/readeck/config.toml" export "/tmp/export.zip"
+{{ bins["readeck"] }} export -config "${HOME}/readeck/config.toml" "/tmp/export.zip"
 
 export RESTIC_PASSWORD="{{ restic_password }}"
 export RESTIC_REPOSITORY="${HOME}/restic/readeck"
-{{ restic_bin }} backup --verbose "/tmp/export.zip"
-{{ restic_bin }} restic forget --verbose --keep-daily 30 --keep-monthly 1 --prune
+{{ bins["restic"] }} backup --verbose "/tmp/export.zip"
+{{ bins["restic"] }} forget --verbose --keep-daily 30 --keep-monthly 1 --prune
 
 rm "/tmp/export.zip"
