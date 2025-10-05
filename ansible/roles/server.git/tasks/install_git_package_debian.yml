@@ -1,0 +1,8 @@
+---
+- name: Install git for Debian
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    name:
+      - git
+    state: present

@@ -1,0 +1,23 @@
+---
+- name: Set facts
+  ansible.builtin.set_fact:
+    replica_drive_label: "SEAGATE_EXT4"
+    replica_drive_mount_point: "/mnt/external"
+
+- name: Create directories for replica drive mount point
+  become: true
+  ansible.builtin.file:
+    path: "{{ replica_drive_mount_point }}"
+    state: directory
+    owner: 1000
+    group: 1000
+
+- name: Setup fstab to allow mounting replica disk by users
+  become: true
+  ansible.posix.mount:
+    boot: false
+    fstype: ext4
+    state: present
+    src: "LABEL={{ replica_drive_label }}"
+    path: "{{ replica_drive_mount_point }}"
+    opts: "rw,user"

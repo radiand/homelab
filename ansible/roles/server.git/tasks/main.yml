@@ -1,0 +1,7 @@
+---
+- name: Install git
+  import_tasks: install_git_package_debian.yml
+  when: ansible_facts['os_family']|lower == 'debian'
+
+- name: Setup git server
+  import_tasks: setup_git_server.yml

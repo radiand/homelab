@@ -1,0 +1,39 @@
+---
+- name: Set facts
+  ansible.builtin.set_fact:
+    server_zettelkasten_git_dir: "/home/git/zettelkasten.git"
+
+- name: ls /home/git/zettelkasten.git
+  become: true
+  ansible.builtin.command:
+    cmd: "ls {{ server_zettelkasten_git_dir }}"
+  register: zettelkasten_git_ls
+
+- name: Initialize zettelkasten git repository
+  block:
+    - name: Create git bare repository directory
+      become: true
+      ansible.builtin.file:
+        path: "{{ server_zettelkasten_git_dir }}"
+        state: directory
+        mode: "0755"
+        owner: git
+        group: git
+
+    - name: Init git bare repository
+      become: true
+      ansible.builtin.command:
+        chdir: "{{ server_zettelkasten_git_dir }}"
+        cmd: "git init --bare"
+
+    - name: Change repository directory owner to git (once again)
+      become: true
+      ansible.builtin.file:
+        recurse: true
+        path: "{{ server_zettelkasten_git_dir }}"
+        state: directory
+        mode: "0755"
+        owner: git
+        group: git
+  when:
+    - zettelkasten_git_ls.stdout == ""
