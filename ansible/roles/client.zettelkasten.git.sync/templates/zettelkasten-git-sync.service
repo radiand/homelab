@@ -1,0 +1,10 @@
+[Unit]
+Description=Zettelkasten git sync
+
+[Service]
+Type=oneshot
+WorkingDirectory={{ client_zettelkasten_git_dir }}
+ExecStart={{ client_bins["zettelkasten"] }} commit -c 60m
+ExecStart={{ client_bins["git"] }} pull --rebase origin master
+ExecStart={{ client_bins["git"] }} push origin master
+ExecStart={{ client_bins["zettelkasten"] }} link

@@ -1,0 +1,14 @@
+[Unit]
+Description=Perform restic backup
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/restic backup \
+    --verbose \
+    $RESTIC_BACKUP_THIS
+ExecStartPost=/usr/bin/restic forget \
+    --verbose \
+    --keep-daily 30 \
+    --keep-monthly 1 \
+    --prune
+EnvironmentFile=%h/.config/restic/zettelkasten.git/backup.env

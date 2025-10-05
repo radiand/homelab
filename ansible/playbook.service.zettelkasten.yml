@@ -1,0 +1,13 @@
+- hosts: local
+  roles:
+    - client.ssh.authorized
+    - client.zettelkasten.git.sync
+
+- hosts: pi
+  roles:
+    - server.ssh.authorized
+    - server.git
+    - server.zettelkasten.git
+    - server.zettelkasten.git.backup
+    - server.replica.drive
+    - server.zettelkasten.git.backup.replica
