@@ -1,0 +1,6 @@
+---
+- hosts: pi
+  roles:
+    - server.bookmarking.caddy
+    - server.bookmarking.readeck
+    - server.bookmarking.readeck.backup

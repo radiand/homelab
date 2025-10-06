@@ -1,0 +1,9 @@
+# readeck.service
+
+[Unit]
+Description=Readeck
+After=nss-lookup.target
+
+[Service]
+Type=exec
+ExecStart={{ ansible_env.HOME }}/.local/bin/readeck serve -config {{ ansible_env.HOME}}/readeck/config.toml

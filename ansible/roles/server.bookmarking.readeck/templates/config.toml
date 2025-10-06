@@ -1,0 +1,14 @@
+[main]
+log_level = "info"
+secret_key = "{{ readeck_secret_key }}"
+data_directory = "{{ ansible_env.HOME }}/readeck/data"
+
+[server]
+host = "127.0.0.1"
+port = 8081
+trusted_proxies=["127.0.0.1"]
+# Should be in sync with caddy public proxy.
+base_url="http://raspberrypi.local:8080/readeck"
+
+[database]
+source = "sqlite3:{{ ansible_env.HOME }}/readeck/data/db.sqlite3"
