@@ -1,4 +1,9 @@
 ---
+- name: Set facts
+  ansible.builtin.set_fact:
+    readeck_restic_repo_dir: "{{ ansible_env.HOME }}/restic/readeck"
+    readeck_restic_config_dir: "{{ ansible_env.HOME }}/.config/restic/readeck"
+
 # We need full paths to executables to inject them into systemd services, which
 # do not have access to user's PATH.
 - name: Discover full paths for tools that must be reachable from systemd
@@ -19,11 +24,11 @@
     path: "{{ item }}"
     state: directory
   loop:
-    - "{{ ansible_env.HOME }}/restic/readeck"
-    - "{{ ansible_env.HOME }}/.config/restic/readeck"
+    - "{{ readeck_restic_repo_dir }}"
+    - "{{ readeck_restic_config_dir }}"
 
 - name: Check if restic repository exists
-  ansible.builtin.command: restic --repo "{{ ansible_env.HOME }}/restic/readeck" cat config
+  ansible.builtin.command: restic --repo "{{ readeck_restic_repo_dir }}" cat config
   environment:
     RESTIC_PASSWORD: "{{ restic_password }}"
   ignore_errors: true
@@ -31,14 +36,14 @@
 
 - name: Initialize restic repository
   when: restic_check.rc == 1
-  ansible.builtin.command: restic init --repo "{{ ansible_env.HOME }}/restic/readeck"
+  ansible.builtin.command: restic init --repo "{{ readeck_restic_repo_dir }}"
   environment:
     RESTIC_PASSWORD: "{{ restic_password }}"
 
 - name: Copy backup script
   ansible.builtin.template:
     src: readeck-backup.sh
-    dest: "{{ ansible_env.HOME }}/.config/restic/readeck/readeck-backup.sh"
+    dest: "{{ readeck_restic_config_dir }}/readeck-backup.sh"
     mode: "0740"
 
 - name: Copy systemd timer for periodic backups
