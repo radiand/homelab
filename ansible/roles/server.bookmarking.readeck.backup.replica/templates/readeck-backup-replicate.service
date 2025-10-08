@@ -1,0 +1,6 @@
+[Unit]
+Description=Replicate readeck restic snapshots
+
+[Service]
+Type=oneshot
+ExecStart={{ readeck_restic_config_dir }}/readeck-backup-replicate.sh

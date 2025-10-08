@@ -1,0 +1,40 @@
+---
+- name: Set facts
+  ansible.builtin.set_fact:
+    readeck_restic_repo_replica_dir: "{{ replica_drive_mount_point }}/restic/readeck"
+
+- name: Check if readeck repository exists in replica directory
+  ansible.builtin.command: restic --repo "{{ readeck_restic_repo_replica_dir }}" cat config
+  environment:
+    RESTIC_PASSWORD: "{{ restic_password }}"
+  ignore_errors: true
+  register: restic_check
+
+- name: Initialize restic repository in replica directory
+  when: restic_check.rc == 1  # in restic >= 0.17.0 check for exit code 10, otherwise 1
+  ansible.builtin.command: restic init --repo "{{ readeck_restic_repo_replica_dir }}"
+  environment:
+    RESTIC_PASSWORD: "{{ restic_password }}"
+
+- name: Copy periodic replication script to be used by systemd
+  ansible.builtin.template:
+    src: readeck-backup-replicate.sh
+    dest: "{{ readeck_restic_config_dir }}/readeck-backup-replicate.sh"
+    mode: "0700"
+
+- name: Copy systemd service for periodic replication
+  ansible.builtin.template:
+    src: readeck-backup-replicate.service
+    dest: "{{ ansible_env.HOME }}/.config/systemd/user/readeck-backup-replicate.service"
+
+- name: Copy systemd timer for periodic replication
+  ansible.builtin.copy:
+    src: readeck-backup-replicate.timer
+    dest: "{{ ansible_env.HOME }}/.config/systemd/user/readeck-backup-replicate.timer"
+
+- name: Enable systemd timer for periodic replication
+  ansible.builtin.systemd_service:
+    name: readeck-backup-replicate.timer
+    scope: user
+    enabled: true
+    state: started

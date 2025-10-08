@@ -4,3 +4,5 @@
     - server.bookmarking.caddy
     - server.bookmarking.readeck
     - server.bookmarking.readeck.backup
+    - server.replica.drive
+    - server.bookmarking.readeck.backup.replica
