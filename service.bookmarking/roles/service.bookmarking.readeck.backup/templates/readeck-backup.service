@@ -1,6 +1,0 @@
-[Unit]
-Description=restic backup of readeck data
-
-[Service]
-Type=oneshot
-ExecStart={{ ansible_env.HOME }}/.config/restic/readeck/readeck-backup.sh

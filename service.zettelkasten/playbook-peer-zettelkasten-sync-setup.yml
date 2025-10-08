@@ -1,8 +1,0 @@
----
-- hosts: hub
-  roles:
-    - hub.git.authorized-keys
-
-- hosts: local
-  roles:
-    - peer.git.sync

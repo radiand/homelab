@@ -1,7 +1,0 @@
----
-- name: Set authorized key taken from file
-  become: true
-  ansible.posix.authorized_key:
-    user: git
-    state: present
-    key: "{{ lookup('file', peer_ssh_public_key ) }}"

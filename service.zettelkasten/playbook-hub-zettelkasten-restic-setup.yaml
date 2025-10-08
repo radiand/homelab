@@ -1,7 +1,0 @@
----
-- hosts: hub
-  roles:
-    - package.restic
-    - hub.restic.common
-    - hub.restic.backup
-    - hub.restic.replica
