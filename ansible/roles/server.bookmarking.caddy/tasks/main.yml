@@ -25,4 +25,5 @@
   ansible.builtin.systemd_service:
     name: caddy.service
     scope: user
+    enabled: true
     state: started
