@@ -1,0 +1,6 @@
+[Unit]
+Description=restic backup of zettelkasten data
+
+[Service]
+Type=oneshot
+ExecStart={{ zettelkasten_restic_config_dir }}/zettelkasten-git-backup.sh

@@ -1,9 +1,0 @@
-[Unit]
-Description=Copy restic snapshots to replica
-
-[Service]
-Type=oneshot
-ExecStartPre=mount $REPLICA_DISK_MOUNT_POINT
-ExecStart=/usr/bin/restic copy --verbose
-ExecStartPost=umount $REPLICA_DISK_MOUNT_POINT
-EnvironmentFile=%h/.config/restic/zettelkasten.git/replica.env

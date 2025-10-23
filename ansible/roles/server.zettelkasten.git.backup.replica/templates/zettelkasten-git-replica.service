@@ -1,0 +1,6 @@
+[Unit]
+Description=Copy restic snapshots to replica
+
+[Service]
+Type=oneshot
+ExecStart={{ zettelkasten_restic_config_dir }}/zettelkasten-git-replica.sh

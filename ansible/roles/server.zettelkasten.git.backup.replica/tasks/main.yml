@@ -11,16 +11,16 @@
   register: restic_check
 
 - name: Initialize restic repository
-  when: restic_check.rc == 10  # in restic >= 0.17.0 check for exit code 10, otherwise 1
+  when: restic_check.rc == 1  # in restic >= 0.17.0 check for exit code 10, otherwise 1
   ansible.builtin.command: restic init --repo "{{ zettelkasten_restic_repo_replica_dir }}"
   environment:
     RESTIC_PASSWORD: "{{ restic_password }}"
 
-- name: Copy restic environment variables file
+- name: Copy restic backup script
   ansible.builtin.template:
-    src: replica.env
-    dest: "{{ zettelkasten_restic_config_dir }}/replica.env"
-    mode: "0600"
+    src: zettelkasten-git-replica.sh
+    dest: "{{ zettelkasten_restic_config_dir }}/zettelkasten-git-replica.sh"
+    mode: "0700"
 
 - name: Copy systemd timer for periodic replication
   ansible.builtin.copy:
@@ -28,7 +28,7 @@
     dest: "{{ ansible_env.HOME }}/.config/systemd/user/zettelkasten-git-replica.timer"
 
 - name: Copy systemd service for periodic replication
-  ansible.builtin.copy:
+  ansible.builtin.template:
     src: zettelkasten-git-replica.service
     dest: "{{ ansible_env.HOME }}/.config/systemd/user/zettelkasten-git-replica.service"
 

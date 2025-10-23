@@ -39,9 +39,9 @@
 
 - name: Copy restic environment variables file
   ansible.builtin.template:
-    src: backup.env
-    dest: "{{ zettelkasten_restic_config_dir }}/backup.env"
-    mode: "0600"
+    src: zettelkasten-git-backup.sh
+    dest: "{{ zettelkasten_restic_config_dir }}/zettelkasten-git-backup.sh"
+    mode: "0700"
 
 - name: Copy systemd timer for periodic backups
   ansible.builtin.copy:
@@ -49,7 +49,7 @@
     dest: "{{ ansible_env.HOME }}/.config/systemd/user/zettelkasten-git-backup.timer"
 
 - name: Copy systemd service for periodic backups
-  ansible.builtin.copy:
+  ansible.builtin.template:
     src: zettelkasten-git-backup.service
     dest: "{{ ansible_env.HOME }}/.config/systemd/user/zettelkasten-git-backup.service"
 
