@@ -2,7 +2,7 @@
 
 [Unit]
 Description=Readeck
-After=nss-lookup.target
+After=multi-user.target
 
 [Service]
 Type=exec

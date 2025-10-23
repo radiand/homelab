@@ -4,7 +4,7 @@
 
 [Unit]
 Description=Caddy
-After=nss-lookup.target
+After=multi-user.target
 
 [Service]
 Type=notify
@@ -14,6 +14,3 @@ TimeoutStopSec=5s
 LimitNOFILE=1048576
 PrivateTmp=true
 ProtectSystem=full
-
-[Install]
-WantedBy=multi-user.target
