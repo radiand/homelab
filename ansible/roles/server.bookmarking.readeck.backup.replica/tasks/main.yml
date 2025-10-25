@@ -11,8 +11,8 @@
   register: restic_check
 
 - name: Initialize restic repository in replica directory
-  when: restic_check.rc == 1  # in restic >= 0.17.0 check for exit code 10, otherwise 1
-  ansible.builtin.command: restic init --repo "{{ readeck_restic_repo_replica_dir }}"
+  when: restic_check.rc != 0
+  ansible.builtin.command: "{{ bins['restic'] }} init --repo {{ readeck_restic_repo_replica_dir }}"
   environment:
     RESTIC_PASSWORD: "{{ restic_password }}"
 
