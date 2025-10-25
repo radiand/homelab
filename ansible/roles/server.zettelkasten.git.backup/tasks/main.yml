@@ -25,15 +25,15 @@
     - "{{ zettelkasten_restic_config_dir }}"
 
 - name: Check if restic repository exists
-  ansible.builtin.command: restic --repo "{{ zettelkasten_restic_repo_dir }}" cat config
+  ansible.builtin.command: "{{ server_bins['restic'] }} --repo {{ zettelkasten_restic_repo_dir }} cat config"
   environment:
     RESTIC_PASSWORD: "{{ restic_password }}"
   ignore_errors: true
   register: restic_check
 
 - name: Initialize restic repository
-  when: restic_check.rc == 10
-  ansible.builtin.command: restic init --repo "{{ zettelkasten_restic_repo_dir }}"
+  when: restic_check.rc != 0
+  ansible.builtin.command: "{{ server_bins['restic'] }} init --repo {{ zettelkasten_restic_repo_dir }}"
   environment:
     RESTIC_PASSWORD: "{{ restic_password }}"
 
