@@ -1,0 +1,17 @@
+[Unit]
+Description=Rclone WebDAV server
+After=network.target
+
+[Service]
+Type=exec
+ExecStart={{ bins['rclone'] }} serve webdav \
+          "{{ webdav_dir }}" \
+          --addr 127.0.0.1:{{ webdav_port }} \
+          --baseurl "/webdav" \
+          --user "{{ webdav_user }}" \
+          --pass "{{ webdav_password }}"
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=default.target

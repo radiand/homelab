@@ -1,0 +1,18 @@
+---
+- name: Ensure webdav dir
+  ansible.builtin.file:
+    path: "{{ webdav_dir }}"
+    state: directory
+
+- name: Copy systemd webdav.service
+  ansible.builtin.template:
+    src: webdav.service
+    dest: "{{ ansible_env.HOME}}/.config/systemd/user/webdav.service"
+
+- name: Enable systemd webdav.service
+  ansible.builtin.systemd_service:
+    name: webdav.service
+    scope: user
+    enabled: true
+    state: started
+    daemon_reload: true

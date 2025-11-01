@@ -1,0 +1,5 @@
+---
+webdav_user: "radiand"
+webdav_password: "{{ undef() }}"
+webdav_port: 8082
+webdav_dir: "{{ ansible_env.HOME }}/srv/webdav"

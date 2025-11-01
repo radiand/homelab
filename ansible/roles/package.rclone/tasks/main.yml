@@ -1,0 +1,28 @@
+---
+- name: Create temp directory for rclone
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: rclone
+  register: rclone_tmp
+
+- name: Download and unpack rclone archive
+  ansible.builtin.unarchive:
+    src: "https://github.com/rclone/rclone/releases/download/v{{ rclone_version }}/rclone-v{{ rclone_version }}-{{ rclone_arch }}.zip"
+    dest: "{{ rclone_tmp.path }}"
+    remote_src: true
+
+- name: Move rclone binary into place
+  ansible.builtin.copy:
+    src: "{{ rclone_tmp.path }}/rclone-v{{ rclone_version }}-{{ rclone_arch }}/rclone"
+    dest: "{{ ansible_env.HOME }}/.local/bin/rclone"
+    mode: '0755'
+    remote_src: true
+
+- name: Clean up temp directory
+  ansible.builtin.file:
+    path: "{{ rclone_tmp.path }}"
+    state: absent
+
+- name: Register rclone path in global bins dictionary
+  ansible.builtin.set_fact:
+    bins: "{{ bins | default({}) | combine({'rclone': ansible_env.HOME + '/.local/bin/rclone'}) }}"
