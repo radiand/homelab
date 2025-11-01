@@ -1,7 +1,7 @@
 ---
 - hosts: pi
   roles:
-    - server.bookmarking.caddy
+    - server.caddy
     - server.bookmarking.readeck
     - server.bookmarking.readeck.backup
     - server.replica.drive
