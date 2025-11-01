@@ -8,7 +8,7 @@ host = "127.0.0.1"
 port = 8081
 trusted_proxies=["127.0.0.1"]
 # Should be in sync with caddy public proxy.
-base_url="http://raspberrypi.local:8080/readeck"
+base_url="https://raspberrypi.lan:8443/readeck"
 
 [database]
 source = "sqlite3:{{ ansible_env.HOME }}/readeck/data/db.sqlite3"

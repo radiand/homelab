@@ -1,20 +1,23 @@
 {
     http_port 8080
     https_port 8443
-    local_certs
 }
 
-http://:8080 {
-    handle /readeck* {
-        reverse_proxy http://localhost:8081
+http://raspberrypi.lan:8080 {
+    @readeck path /readeck*
+    handle @readeck {
+        redir https://{host}:8443{uri} permanent
+    }
+
+    handle {
+        redir https://{host}:8443{uri} permanent
     }
 }
 
-https://:8443 {
+https://raspberrypi.lan:8443 {
     handle /readeck* {
-        reverse_proxy http://localhost:8081
+        reverse_proxy 127.0.0.1:8081
     }
-    tls internal {
-        on_demand
-    }
+
+    tls internal
 }
