@@ -4,18 +4,12 @@
 }
 
 http://raspberrypi.lan:8080 {
-    @readeck path /readeck*
-    handle @readeck {
-        redir https://{host}:8443{uri} permanent
+    handle /readeck* {
+        reverse_proxy 127.0.0.1:8081
     }
 
-    @webdav path /webdav*
-    handle @webdav {
-        redir https://{host}:8443{uri} permanent
-    }
-
-    handle {
-        redir https://{host}:8443{uri} permanent
+    handle /webdav* {
+        reverse_proxy 127.0.0.1:8082
     }
 }
 
