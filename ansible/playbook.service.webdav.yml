@@ -4,3 +4,6 @@
     - package.rclone
     - server.webdav
     - server.caddy
+    - package.restic
+    - server.replica.drive
+    - server.srv.backup

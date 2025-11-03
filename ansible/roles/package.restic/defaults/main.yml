@@ -1,0 +1,3 @@
+---
+restic_version: 0.18.1
+restic_arch: linux_arm64  # Use underscores.

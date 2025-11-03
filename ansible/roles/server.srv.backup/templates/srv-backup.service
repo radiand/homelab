@@ -1,0 +1,6 @@
+[Unit]
+Description=restic backup of srv
+
+[Service]
+Type=oneshot
+ExecStart={{ ansible_env.HOME }}/.config/restic/srv/srv-backup.sh

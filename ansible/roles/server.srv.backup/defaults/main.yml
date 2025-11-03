@@ -1,0 +1,4 @@
+---
+srv_dir: "{{ ansible_env.HOME }}/srv"
+srv_backup_config_dir: "{{ ansible_env.HOME }}/.config/restic/srv"
+srv_backup_restic_repo: "{{ replica_drive_mount_point }}/restic/srv"

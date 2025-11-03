@@ -1,0 +1,34 @@
+---
+- name: Create temp directory for restic
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: restic
+  register: restic_tmp
+
+- name: Download restic bz2 archive
+  ansible.builtin.get_url:
+    url: "https://github.com/restic/restic/releases/download/v{{ restic_version }}/restic_{{ restic_version }}_{{ restic_arch }}.bz2"
+    dest: "{{ restic_tmp.path }}/restic.bz2"
+    mode: '0644'
+
+- name: Extract restic binary from bz2
+  ansible.builtin.shell: bunzip2 -c "{{ restic_tmp.path }}/restic.bz2" > "{{ restic_tmp.path }}/restic"
+  args:
+    creates: "{{ restic_tmp.path }}/restic"
+  changed_when: false
+
+- name: Move restic binary into place
+  ansible.builtin.copy:
+    src: "{{ restic_tmp.path }}/restic"
+    dest: "{{ ansible_env.HOME }}/.local/bin/restic"
+    mode: '0755'
+    remote_src: true
+
+- name: Clean up temp directory
+  ansible.builtin.file:
+    path: "{{ restic_tmp.path }}"
+    state: absent
+
+- name: Register restic path in global bins dictionary
+  ansible.builtin.set_fact:
+    bins: "{{ bins | default({}) | combine({'restic': ansible_env.HOME + '/.local/bin/restic'}) }}"

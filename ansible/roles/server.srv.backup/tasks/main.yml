@@ -1,0 +1,44 @@
+---
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ srv_backup_restic_repo }}"
+    - "{{ srv_backup_config_dir }}"
+
+- name: Check if restic repository exists
+  ansible.builtin.command: restic --repo "{{ srv_backup_restic_repo }}" cat config
+  environment:
+    RESTIC_PASSWORD: "{{ restic_password }}"
+  ignore_errors: true
+  register: restic_check
+
+- name: Initialize restic repository if not existing
+  when: restic_check.rc != 0
+  ansible.builtin.command: "{{ bins['restic'] }} init --repo {{ srv_backup_restic_repo }}"
+  environment:
+    RESTIC_PASSWORD: "{{ restic_password }}"
+
+- name: Copy backup script
+  ansible.builtin.template:
+    src: srv-backup.sh
+    dest: "{{ srv_backup_config_dir }}/srv-backup.sh"
+    mode: "0740"
+
+- name: Copy systemd timer for periodic backups
+  ansible.builtin.copy:
+    src: srv-backup.timer
+    dest: "{{ ansible_env.HOME}}/.config/systemd/user/srv-backup.timer"
+
+- name: Copy systemd service for periodic backups
+  ansible.builtin.template:
+    src: srv-backup.service
+    dest: "{{ ansible_env.HOME}}/.config/systemd/user/srv-backup.service"
+
+- name: Enable systemd timer for periodic backups
+  ansible.builtin.systemd_service:
+    name: srv-backup.timer
+    scope: user
+    enabled: true
+    state: started
