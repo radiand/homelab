@@ -1,7 +1,7 @@
 [main]
 log_level = "info"
 secret_key = "{{ readeck_secret_key }}"
-data_directory = "{{ ansible_env.HOME }}/readeck/data"
+data_directory = "{{ ansible_env.HOME }}/srv/readeck/data"
 
 [server]
 host = "127.0.0.1"
@@ -11,4 +11,4 @@ trusted_proxies=["127.0.0.1"]
 base_url="https://raspberrypi.lan:8443/readeck"
 
 [database]
-source = "sqlite3:{{ ansible_env.HOME }}/readeck/data/db.sqlite3"
+source = "sqlite3:{{ ansible_env.HOME }}/srv/readeck/data/db.sqlite3"

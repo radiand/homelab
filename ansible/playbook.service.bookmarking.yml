@@ -3,6 +3,6 @@
   roles:
     - server.caddy
     - server.bookmarking.readeck
-    - server.bookmarking.readeck.backup
+    - package.restic
     - server.replica.drive
-    - server.bookmarking.readeck.backup.replica
+    - server.srv.backup

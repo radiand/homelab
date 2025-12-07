@@ -6,4 +6,4 @@ After=multi-user.target
 
 [Service]
 Type=exec
-ExecStart={{ ansible_env.HOME }}/.local/bin/readeck serve -config {{ ansible_env.HOME}}/readeck/config.toml
+ExecStart={{ ansible_env.HOME }}/.local/bin/readeck serve -config {{ ansible_env.HOME}}/.config/readeck/config.toml

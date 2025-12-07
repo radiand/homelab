@@ -8,13 +8,16 @@
 
 - name: Create readeck directories
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/readeck/data"
+    path: "{{ item }}"
     state: directory
+  loop:
+    - "{{ ansible_env.HOME }}/srv/readeck/data"
+    - "{{ ansible_env.HOME }}/.config/readeck/data"
 
 - name: Copy readeck config
   ansible.builtin.template:
     src: config.toml
-    dest: "{{ ansible_env.HOME }}/readeck/config.toml"
+    dest: "{{ ansible_env.HOME }}/.config/readeck/config.toml"
 
 - name: Copy systemd readeck.service
   ansible.builtin.template:
